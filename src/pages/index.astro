@@ -1,17 +1,24 @@
 ---
-// Homepage — most recent non-draft article as hero, next 4 in a 2-col grid.
-// Sorted by pubDate descending. Excludes drafts at build time.
+// Homepage — hero + 2-col grid of recent articles, then client-side infinite
+// scroll for everything older.
+//
+// - Hero: featured article if any (single-featured invariant enforced), else most recent.
+// - Grid (SSG): the next PAGE_SIZE articles after the hero.
+// - Beyond that: a sentinel <div> + IntersectionObserver fetch pages from
+//   /api/articles/{n}.json and appends cards. See /src/pages/api/articles/[page].json.ts
+//   for the pagination contract.
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Masthead from "../components/Masthead.astro";
 import ArticleCard from "../components/ArticleCard.astro";
 import { getCollection } from "astro:content";
 
-const articles = (await getCollection("articles", ({ data }) => !data.draft))
-  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+const PAGE_SIZE = 4; // must match src/pages/api/articles/[page].json.ts
 
-// Enforce single-featured invariant at build time. Authors set `featured: true`
-// on one article to pin it as the hero indefinitely; if two are flagged, fail
-// the build loudly rather than silently picking one.
+const articles = (await getCollection("articles", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
+);
+
+// Enforce single-featured invariant at build time.
 const featuredArticles = articles.filter((a) => a.data.featured);
 if (featuredArticles.length > 1) {
   throw new Error(
@@ -20,15 +27,15 @@ if (featuredArticles.length > 1) {
   );
 }
 
-// Hero = the pinned featured article if any, else most recent.
 const featured = featuredArticles[0];
 const hero = featured ?? articles[0];
 
-// Grid = everything else (excludes whatever became the hero), capped at 4.
-const grid = articles.filter((a) => a.id !== hero?.id).slice(0, 4);
+const rest = articles.filter((a) => a.id !== hero?.id);
+const grid = rest.slice(0, PAGE_SIZE);
+// If there's more beyond the initial grid, infinite scroll picks up at page 2.
+const hasMore = rest.length > PAGE_SIZE;
 
-// Cheap hero excerpt: first non-empty paragraph of the raw markdown body,
-// stripped of inline markdown. Good enough for a teaser; nothing rendered.
+// Hero excerpt: first non-empty paragraph of the raw markdown body, demarkdownified.
 function excerptOf(raw: string): string {
   const firstPara = raw
     .split(/\n{2,}/)
@@ -36,9 +43,9 @@ function excerptOf(raw: string): string {
     .find((p) => p.length > 0 && !p.startsWith("#"));
   if (!firstPara) return "";
   return firstPara
-    .replace(/!\[[^\]]*\]\([^)]*\)/g, "")          // images
-    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")        // links
-    .replace(/[*_`]/g, "")                          // emphasis/code marks
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, "")
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+    .replace(/[*_`]/g, "")
     .replace(/\s+/g, " ")
     .trim();
 }
@@ -53,21 +60,149 @@ const heroExcerpt = hero ? excerptOf(hero.body ?? "") : "";
   <Masthead />
 
   <main class="front-page">
-    {hero ? (
-      <ArticleCard article={hero} variant="hero" excerpt={heroExcerpt} />
-    ) : (
-      <p class="empty">No articles published yet. Check back soon.</p>
-    )}
+    {
+      hero ? (
+        <ArticleCard article={hero} variant="hero" excerpt={heroExcerpt} />
+      ) : (
+        <p class="empty">No articles published yet. Check back soon.</p>
+      )
+    }
 
-    {grid.length > 0 && (
-      <section class="grid" aria-label="More from this edition">
-        {grid.map((article) => (
-          <ArticleCard article={article} variant="grid" />
-        ))}
-      </section>
-    )}
+    {
+      grid.length > 0 && (
+        <section
+          class="grid"
+          id="article-grid"
+          aria-label="More from this edition"
+          aria-live="polite"
+          aria-busy="false"
+        >
+          {grid.map((article) => (
+            <ArticleCard article={article} variant="grid" />
+          ))}
+        </section>
+      )
+    }
+
+    {
+      hasMore && (
+        <div
+          id="scroll-sentinel"
+          data-next-page="2"
+          aria-hidden="true"
+        />
+      )
+    }
+    <p id="scroll-status" class="scroll-status" role="status" hidden>
+      Loading more…
+    </p>
+    <p id="scroll-end" class="scroll-end" hidden>
+      — That's the whole edition. —
+    </p>
   </main>
 </BaseLayout>
+
+<script>
+  // Infinite scroll, vanilla.
+  // Sentinel below the SSG grid. On intersection, fetch the next page JSON,
+  // append cards, advance the sentinel's data-next-page. When the endpoint
+  // returns nextPage: null, retire the sentinel and reveal the end marker.
+  type CardJSON = {
+    id: string;
+    href: string;
+    title: string;
+    deck?: string;
+    category: string;
+    byline: string;
+    pubDateISO: string;
+    dateStr: string;
+  };
+
+  type ApiResponse = { articles: CardJSON[]; nextPage: number | null };
+
+  const sentinel = document.getElementById("scroll-sentinel");
+  const grid = document.getElementById("article-grid");
+  const status = document.getElementById("scroll-status");
+  const endMarker = document.getElementById("scroll-end");
+
+  if (sentinel && grid) {
+    let loading = false;
+    let finished = false;
+
+    const renderCard = (a: CardJSON): HTMLElement => {
+      const article = document.createElement("article");
+      article.className = "card card-grid";
+      // Match ArticleCard.astro grid markup; classes are global on the page
+      // because the Astro component scopes are static — but the cream/ink
+      // typography is inherited from global.css, so plain class names work.
+      article.innerHTML = `
+        <p class="kicker">${escapeHTML(a.category)}</p>
+        <h3 class="headline"><a href="${escapeAttr(a.href)}">${escapeHTML(a.title)}</a></h3>
+        ${a.deck ? `<p class="deck deck-grid">${escapeHTML(a.deck)}</p>` : ""}
+        <p class="meta meta-grid">
+          <span class="byline">${escapeHTML(a.byline)}</span>
+          <span aria-hidden="true"> · </span>
+          <time datetime="${escapeAttr(a.pubDateISO)}">${escapeHTML(a.dateStr)}</time>
+        </p>
+      `;
+      return article;
+    };
+
+    const loadNext = async () => {
+      if (loading || finished) return;
+      const nextPage = sentinel.dataset.nextPage;
+      if (!nextPage) return;
+      loading = true;
+      grid.setAttribute("aria-busy", "true");
+      if (status) status.hidden = false;
+      try {
+        const res = await fetch(`/api/articles/${nextPage}.json`, {
+          headers: { Accept: "application/json" },
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = (await res.json()) as ApiResponse;
+        for (const a of data.articles) grid.appendChild(renderCard(a));
+        if (data.nextPage) {
+          sentinel.dataset.nextPage = String(data.nextPage);
+        } else {
+          finished = true;
+          sentinel.remove();
+          if (endMarker) endMarker.hidden = false;
+        }
+      } catch (err) {
+        // Don't spam errors at the reader; quietly bail and let them keep scrolling
+        // the rest of the page. They can refresh if they really want more.
+        console.warn("[the-corn] infinite scroll fetch failed:", err);
+        finished = true;
+        sentinel.remove();
+      } finally {
+        loading = false;
+        grid.setAttribute("aria-busy", "false");
+        if (status) status.hidden = true;
+      }
+    };
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) if (e.isIntersecting) loadNext();
+      },
+      { rootMargin: "400px 0px" }, // start fetching 400px before sentinel enters viewport
+    );
+    io.observe(sentinel);
+  }
+
+  function escapeHTML(s: string): string {
+    return s
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+  function escapeAttr(s: string): string {
+    return escapeHTML(s);
+  }
+</script>
 
 <style>
   .front-page {
@@ -88,12 +223,28 @@ const heroExcerpt = hero ? excerptOf(hero.body ?? "") : "";
     padding: 0 0 1em;
   }
 
-  /* Two columns at tablet+ widths. */
   @media (min-width: 640px) {
     .grid {
       grid-template-columns: 1fr 1fr;
       column-gap: 2em;
       row-gap: 2em;
     }
+  }
+
+  #scroll-sentinel {
+    height: 1px;
+    width: 100%;
+    /* invisible, but takes up space so the observer fires reliably */
+  }
+
+  .scroll-status,
+  .scroll-end {
+    text-align: center;
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: var(--fs-small);
+    color: var(--color-muted);
+    padding: 1.4em 0 2em;
+    margin: 0;
   }
 </style>
