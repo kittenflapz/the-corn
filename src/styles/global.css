@@ -1,0 +1,136 @@
+/* The Corn — global styles
+ *
+ * Fonts self-hosted via @fontsource (NO Google Fonts CDN).
+ * Latin subsets only — keeps bundle small; town is anglophone.
+ */
+
+/* Playfair Display — masthead + headlines (400, 700, 900 + italics) */
+@import "@fontsource/playfair-display/latin-400.css";
+@import "@fontsource/playfair-display/latin-400-italic.css";
+@import "@fontsource/playfair-display/latin-700.css";
+@import "@fontsource/playfair-display/latin-700-italic.css";
+@import "@fontsource/playfair-display/latin-900.css";
+@import "@fontsource/playfair-display/latin-900-italic.css";
+
+/* Old Standard TT — body copy (400, 400 italic, 700) */
+@import "@fontsource/old-standard-tt/latin-400.css";
+@import "@fontsource/old-standard-tt/latin-400-italic.css";
+@import "@fontsource/old-standard-tt/latin-700.css";
+
+/* -------- design tokens -------- */
+:root {
+  /* color */
+  --color-bg: #f5ecd8;        /* newsprint cream — page */
+  --color-chrome: #ece4d3;    /* outer chrome behind the page */
+  --color-ink: #1a1a1a;       /* body ink */
+  --color-rule: #c9bfa6;      /* hairline rules */
+  --color-muted: #6b6358;     /* small-caps, dateline, secondary */
+
+  /* type families */
+  --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-body: "Old Standard TT", Georgia, "Times New Roman", serif;
+
+  /* type scale */
+  --fs-nameplate: clamp(56px, 10vw, 96px);
+  --fs-headline-hero: 34px;
+  --fs-headline: 26px;
+  --fs-deck: 17px;
+  --fs-body: 15px;
+  --fs-small: 13px;
+  --fs-micro: 11px;
+
+  /* layout */
+  --page-max: 900px;
+  --page-pad-x: 24px;
+  --leading-body: 1.55;
+}
+
+/* -------- reset-ish -------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background: var(--color-chrome);
+  color: var(--color-ink);
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--leading-body);
+  background: var(--color-chrome);
+  color: var(--color-ink);
+}
+
+/* -------- page container -------- */
+.page {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 0 var(--page-pad-x);
+  background: var(--color-bg);
+  min-height: 100vh;
+}
+
+/* -------- headings (display face) -------- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  font-weight: 900;
+  color: var(--color-ink);
+  margin: 0 0 0.4em;
+  line-height: 1.15;
+}
+
+/* -------- links -------- */
+a {
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+/* -------- rules -------- */
+hr {
+  border: 0;
+  border-top: 1px solid var(--color-rule);
+  margin: 1.5em 0;
+}
+
+/* -------- small-caps utility (dateline, kickers) -------- */
+.smallcaps {
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+}
+
+/* -------- body paragraphs -------- */
+p {
+  margin: 0 0 1em;
+}
+
+/* -------- images don't blow out the column -------- */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
