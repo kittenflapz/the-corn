@@ -1,0 +1,170 @@
+---
+// ArticleCard — used on the homepage in two modes:
+//   variant="hero"  → top of front page; full headline, deck, first paragraph excerpt, "Continue Reading →"
+//   variant="grid"  → smaller card in the recent-articles grid; headline, deck, byline
+//
+// The card is purely presentational; routing happens via the slug-derived href.
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  article: CollectionEntry<"articles">;
+  variant?: "hero" | "grid";
+  /** Optional excerpt to show on hero cards (first paragraph plain text). */
+  excerpt?: string;
+}
+
+const { article, variant = "grid", excerpt } = Astro.props;
+const { title, deck, dateline, byline, pubDate, category } = article.data;
+const href = `/articles/${article.id}/`;
+
+// Formatted date — newspaper style: "May 28, 2026"
+const dateStr = pubDate.toLocaleDateString("en-CA", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+---
+
+{variant === "hero" ? (
+  <article class="card card-hero">
+    <p class="kicker">{category}</p>
+    <h2 class="headline-hero"><a href={href}>{title}</a></h2>
+    {deck && <p class="deck">{deck}</p>}
+    <p class="meta">
+      <span class="dateline">{dateline}</span>
+      <span aria-hidden="true"> — </span>
+      <span class="byline">{byline}</span>
+      <span aria-hidden="true"> · </span>
+      <time datetime={pubDate.toISOString()}>{dateStr}</time>
+    </p>
+    {excerpt && <p class="excerpt">{excerpt}</p>}
+    <p class="continue"><a href={href}>Continue Reading →</a></p>
+  </article>
+) : (
+  <article class="card card-grid">
+    <p class="kicker">{category}</p>
+    <h3 class="headline"><a href={href}>{title}</a></h3>
+    {deck && <p class="deck deck-grid">{deck}</p>}
+    <p class="meta meta-grid">
+      <span class="byline">{byline}</span>
+      <span aria-hidden="true"> · </span>
+      <time datetime={pubDate.toISOString()}>{dateStr}</time>
+    </p>
+  </article>
+)}
+
+<style>
+  .card {
+    /* Cards never carry their own background; they sit on the cream page. */
+    margin: 0;
+    padding: 0;
+  }
+
+  /* -- kicker (category tag, small caps) ------------------------------- */
+  .kicker {
+    font-family: var(--font-body);
+    font-size: var(--fs-micro);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-muted);
+    margin: 0 0 0.4em;
+  }
+
+  /* -- hero ------------------------------------------------------------ */
+  .card-hero {
+    text-align: center;
+    padding: 1.2em 0 1.6em;
+    border-bottom: 1px solid var(--color-rule);
+    margin-bottom: 2em;
+  }
+
+  .headline-hero {
+    font-size: var(--fs-headline-hero);
+    line-height: 1.1;
+    margin: 0 0 0.35em;
+  }
+
+  .headline-hero a {
+    text-decoration: none;
+    color: var(--color-ink);
+  }
+  .headline-hero a:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+  }
+
+  .card-hero .deck {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: var(--fs-deck);
+    color: var(--color-ink);
+    margin: 0 auto 0.8em;
+    max-width: 56ch;
+    line-height: 1.35;
+  }
+
+  .meta {
+    font-family: var(--font-body);
+    font-size: var(--fs-small);
+    color: var(--color-muted);
+    margin: 0 0 1em;
+  }
+
+  .dateline {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    color: var(--color-ink);
+  }
+
+  .excerpt {
+    font-family: var(--font-body);
+    font-size: var(--fs-body);
+    line-height: var(--leading-body);
+    text-align: left;
+    margin: 0.6em auto 1em;
+    max-width: 62ch;
+  }
+
+  .continue {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-small);
+    margin: 0;
+  }
+
+  /* -- grid ------------------------------------------------------------ */
+  .card-grid {
+    text-align: left;
+  }
+
+  .headline {
+    font-size: var(--fs-headline);
+    line-height: 1.15;
+    margin: 0 0 0.3em;
+  }
+
+  .headline a {
+    text-decoration: none;
+    color: var(--color-ink);
+  }
+  .headline a:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+  }
+
+  .deck-grid {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.35;
+    color: var(--color-ink);
+    margin: 0 0 0.6em;
+  }
+
+  .meta-grid {
+    margin: 0;
+  }
+</style>

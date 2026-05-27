@@ -1,0 +1,195 @@
+---
+// ArticleBody — renders a single article: dateline, headline, deck, byline,
+// and the markdown body via <slot/>. The page route is responsible for calling
+// `render(article)` and passing its <Content/> into the default slot.
+//
+// Layout per IMPLEMENTATION_PLAN §T4:
+//   - Dateline (small-caps, centered)
+//   - Headline (Playfair 34px centered)
+//   - Deck (italic centered 17px)
+//   - Byline + date (small caps, centered)
+//   - Body: 15px Old Standard TT, justified, max 65ch single column on mobile;
+//           CSS columns: 2 at wider viewports for that newsprint feel.
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  article: CollectionEntry<"articles">;
+}
+
+const { article } = Astro.props;
+const { title, deck, dateline, byline, pubDate, category } = article.data;
+
+const dateStr = pubDate.toLocaleDateString("en-CA", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+---
+
+<article class="article">
+  <header class="article-header">
+    <p class="kicker">{category}</p>
+    <p class="dateline">{dateline}</p>
+    <h1 class="headline">{title}</h1>
+    {deck && <p class="deck">{deck}</p>}
+    <p class="byline">
+      By <span class="byline-name">{byline}</span>
+      <span aria-hidden="true"> · </span>
+      <time datetime={pubDate.toISOString()}>{dateStr}</time>
+    </p>
+  </header>
+
+  <div class="article-body">
+    <slot />
+  </div>
+
+  <p class="back-link"><a href="/">← Back to front page</a></p>
+</article>
+
+<style>
+  .article {
+    padding: 1.5em 0 0;
+  }
+
+  .article-header {
+    text-align: center;
+    margin: 0 auto 1.5em;
+    max-width: 65ch;
+  }
+
+  .kicker {
+    font-family: var(--font-body);
+    font-size: var(--fs-micro);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--color-muted);
+    margin: 0 0 0.6em;
+  }
+
+  .dateline {
+    font-family: var(--font-body);
+    font-size: var(--fs-small);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    color: var(--color-ink);
+    margin: 0 0 0.4em;
+  }
+
+  .headline {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: var(--fs-headline-hero);
+    line-height: 1.1;
+    margin: 0 0 0.4em;
+  }
+
+  .deck {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: var(--fs-deck);
+    line-height: 1.35;
+    color: var(--color-ink);
+    margin: 0 auto 0.8em;
+    max-width: 56ch;
+  }
+
+  .byline {
+    font-family: var(--font-body);
+    font-size: var(--fs-small);
+    color: var(--color-muted);
+    margin: 0;
+  }
+
+  .byline-name {
+    color: var(--color-ink);
+    font-weight: 700;
+  }
+
+  /* -- body -------------------------------------------------------------
+   * Mobile: single column, justified, max 65ch.
+   * Desktop (>=760px): 2 column CSS columns for newsprint feel. CSS columns
+   * play nicely with markdown-rendered <p> tags — no extra wrapper needed.
+   */
+  .article-body {
+    font-family: var(--font-body);
+    font-size: var(--fs-body);
+    line-height: var(--leading-body);
+    color: var(--color-ink);
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    max-width: 65ch;
+    margin: 0 auto;
+  }
+
+  .article-body :global(p) {
+    margin: 0 0 1em;
+  }
+
+  .article-body :global(h2) {
+    font-family: var(--font-display);
+    font-size: 22px;
+    margin: 1.4em 0 0.5em;
+    text-align: left;
+  }
+
+  .article-body :global(h3) {
+    font-family: var(--font-display);
+    font-size: 18px;
+    margin: 1.2em 0 0.4em;
+    text-align: left;
+  }
+
+  .article-body :global(blockquote) {
+    margin: 1.2em 0;
+    padding: 0 1.2em;
+    border-left: 2px solid var(--color-rule);
+    font-style: italic;
+    color: var(--color-muted);
+  }
+
+  .article-body :global(em),
+  .article-body :global(i) {
+    font-style: italic;
+  }
+
+  .article-body :global(strong) {
+    font-weight: 700;
+  }
+
+  @media (min-width: 760px) {
+    .article-body {
+      max-width: none;
+      column-count: 2;
+      column-gap: 2.2em;
+      column-rule: 1px solid var(--color-rule);
+      text-align: justify;
+    }
+    /* First paragraph spans full width for a drop-cap-ready opener. */
+    .article-body :global(p:first-of-type) {
+      column-span: all;
+      max-width: 65ch;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  .back-link {
+    margin: 3em 0 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-small);
+    text-align: center;
+  }
+
+  .back-link a {
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+
+  .back-link a:hover {
+    text-decoration: underline;
+  }
+</style>

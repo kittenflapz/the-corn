@@ -1,0 +1,36 @@
+---
+// Dynamic article route. One static page per non-draft article at build time.
+// Path shape: /articles/<file-stem>/  (e.g. /articles/2026-05-28-unattended-van/)
+import { getCollection, render } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Masthead from "../../components/Masthead.astro";
+import ArticleBody from "../../components/ArticleBody.astro";
+
+export async function getStaticPaths() {
+  const articles = await getCollection("articles", ({ data }) => !data.draft);
+  return articles.map((article) => ({
+    params: { slug: article.id },
+    props: { article },
+  }));
+}
+
+interface Props {
+  article: CollectionEntry<"articles">;
+}
+
+const { article } = Astro.props;
+const { Content } = await render(article);
+const { title, deck } = article.data;
+---
+
+<BaseLayout
+  title={`${title} — The Corn`}
+  description={deck ?? `${title} — from The Corn, Port Perry's most vigilant satirical newspaper.`}
+  ogType="article"
+>
+  <Masthead />
+  <ArticleBody article={article}>
+    <Content />
+  </ArticleBody>
+</BaseLayout>
