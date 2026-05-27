@@ -10,13 +10,13 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
     "check": "astro check",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
   "dependencies": {
+    "@fontsource/old-standard-tt": "^5.2.8",
+    "@fontsource/playfair-display": "^5.2.8",
     "astro": "^6.3.8"
   },
   "devDependencies": {
