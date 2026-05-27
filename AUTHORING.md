@@ -1,28 +1,33 @@
-# Authoring Guide — the corn
+# Authoring Guide
 
-## Source material handling
+How to write a new article for The Corn without leaking source material or tripping the editorial guardrails.
 
-**Source FB screenshots, HEIC photos, and any raw material from Discord or private storage NEVER go in this repo.**
+## Source material — never in this repo
 
-A committed image is public on GitHub forever — even if you `git rm` it later, it lives in the history and on every fork and clone. There is no "delete from GitHub" once it's pushed. Assume anything that lands in `main` is permanently public.
+Source posts (Facebook screenshots, copy-pasted text, neighbourhood gossip, etc.) live in **Discord and private storage only**. They must never be committed to this repository. The `.gitignore` defensively blocks `screenshots/`, `source-material/`, and `*.heic|*.HEIF` files, but the rule is: don't put them here in the first place.
 
-### Where source material lives
+When you describe a source post in a PR, do it **in plain text** in the PR description. Do not attach the screenshot.
 
-- **FB screenshots / received PNGs**: stay in Discord DMs or private cloud storage (iCloud, Drive, whatever).
-- **HEIC originals from phone**: stay on device or in private storage. Convert to redacted/processed JPEG/PNG before anything touches the repo working tree.
-- **Working copies during editing**: drop into the repo's `screenshots/` or `source-material/` directories — both are gitignored, so they exist on your machine but git won't track them.
+## Writing a new article
 
-### Gitignored paths (do not commit)
+1. **Branch.** Cut a branch off `main`: `git checkout -b article/<short-slug>`.
+2. **File.** Create `src/content/articles/YYYY-MM-DD-<slug>.md`. Use today's date (or planned publish date) as the prefix.
+3. **Frontmatter.** Match the schema in [`src/content/config.ts`](src/content/config.ts). If you add a field, update the schema first.
+4. **Compose, don't copy.** Articles should be a composite of 2+ source posts. If you only have one source, either wait for another or pick a different angle.
+5. **Anonymize.** No real names, no real initials, no specific independent businesses, no real street addresses or named landmarks. See [`STYLE_GUIDE.md`](https://github.com/kittenflapz/the-corn/blob/main/STYLE_GUIDE.md) (in the editorial repo) for the full rules.
+6. **Sniff test.** Run the sniff test from STYLE_GUIDE before opening the PR. The PR template will walk you through the checklist again — that's intentional double-checking.
 
-- `screenshots/` — local-only screenshot staging
-- `source-material/` — raw source assets
-- `*.heic`, `*.HEIC` — iOS originals, never web-safe anyway
+## Drafts
 
-### What CAN go in the repo
+To keep an in-progress piece out of the homepage, archive, and RSS feed, set `draft: true` in the frontmatter. The content collection schema treats `draft` as optional and the page templates filter it out. Drop the flag (or set `false`) when you're ready to publish.
 
-- Fully redacted, anonymized, processed images intended for publication (faces blurred, names removed, etc.) — placed under `public/` or `src/assets/` as the post requires.
-- If in doubt: don't commit. Ask first.
+## Preview and merge
 
-### Pre-commit sanity check
+- Opening a PR triggers a Cloudflare Pages preview deploy. The URL appears as a check on the PR.
+- Use the preview to **visually** confirm the disclaimer renders, the layout looks right, and nothing weird happened with markdown rendering.
+- The PR template's checklist must be completed before merge.
+- **Catt is the editor of record.** Catt reviews and merges. CF Pages auto-deploys from `main`.
 
-Before `git add .`, run `git status` and confirm no `.heic`, `.HEIC`, `screenshots/`, or `source-material/` paths appear in "Untracked files" that you're about to stage. The gitignore should handle this automatically, but verify.
+## When in doubt
+
+If something feels too close to a real identifiable person/place/event, it probably is. Cut it, change it, or shelve the piece. The Corn's safety margin lives in the boring, generic details.
