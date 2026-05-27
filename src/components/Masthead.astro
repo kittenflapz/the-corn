@@ -1,0 +1,103 @@
+---
+// Masthead — Variant B from assets/masthead-concept.html (clean modern serif).
+//
+// Top rule:    Vol. I · No. 1   |   Established 2026   |   Free · Take One
+// Nameplate:   "The Corn" — Playfair Display 900, 88px (clamped on mobile)
+// Tagline:     italic — "Serving the concerned residents of Durham Region since 2026"
+// Bottom rule: Port Perry · Uxbridge · Beaverton   |   [Weekday] Edition
+//
+// Weekday defaults to the current build-time weekday (Eastern Time-ish; we just
+// use the build host clock — close enough for a static site rebuilt frequently).
+// Pass `weekday` to override (e.g. for a specific edition page).
+
+interface Props {
+  volume?: string;
+  issue?: string;
+  established?: string;
+  tagline?: string;
+  cities?: string;
+  weekday?: string;
+}
+
+const {
+  volume = "Vol. I",
+  issue = "No. 1",
+  established = "Established 2026",
+  tagline = "Serving the concerned residents of Durham Region since 2026",
+  cities = "Port Perry · Uxbridge · Beaverton",
+  weekday = new Date().toLocaleDateString("en-CA", { weekday: "long" }),
+} = Astro.props;
+---
+
+<header class="masthead" role="banner">
+  <div class="top-rule">
+    <span>{volume} · {issue}</span>
+    <span>{established}</span>
+    <span>Free · Take One</span>
+  </div>
+  <h1 class="nameplate">The Corn</h1>
+  <p class="tagline">{tagline}</p>
+  <div class="bottom-rule">
+    <span>{cities}</span>
+    <span>{weekday} Edition</span>
+  </div>
+</header>
+
+<style>
+  .masthead {
+    text-align: center;
+    border-bottom: 3px double var(--color-ink);
+    padding-bottom: 18px;
+    margin-bottom: 22px;
+  }
+
+  .top-rule,
+  .bottom-rule {
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+    font-family: var(--font-body);
+    font-size: var(--fs-micro);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  .top-rule {
+    border-bottom: 1px solid var(--color-ink);
+    padding-bottom: 6px;
+    margin-bottom: 14px;
+  }
+
+  .bottom-rule {
+    border-top: 1px solid var(--color-ink);
+    padding-top: 8px;
+    margin-top: 14px;
+  }
+
+  .nameplate {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(48px, 12vw, 88px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin: 6px 0 4px;
+  }
+
+  .tagline {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: 15px;
+    margin: 4px 0 0;
+  }
+
+  /* On narrow screens, stack the rules so the spans don't crush together. */
+  @media (max-width: 520px) {
+    .top-rule,
+    .bottom-rule {
+      flex-direction: column;
+      gap: 2px;
+      align-items: center;
+      letter-spacing: 0.1em;
+    }
+  }
+</style>
