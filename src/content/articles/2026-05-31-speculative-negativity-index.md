@@ -6,6 +6,7 @@ pubDate: 2026-05-31
 byline: "Staff Reporter"
 category: "civic affairs"
 draft: false
+featured: true
 ---
 
 A new analysis from *The Corn*'s research department finds that downtown construction in the region is being met with what economists are calling "an unusually high volume of speculative negativity" — that is, complaints about buildings that do not yet exist, will not exist for some time, or, in several cases, are not being built at all.

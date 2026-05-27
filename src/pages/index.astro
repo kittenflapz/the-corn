@@ -9,8 +9,23 @@ import { getCollection } from "astro:content";
 const articles = (await getCollection("articles", ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 
-const hero = articles[0];
-const grid = articles.slice(1, 5); // up to 4 more in the grid
+// Enforce single-featured invariant at build time. Authors set `featured: true`
+// on one article to pin it as the hero indefinitely; if two are flagged, fail
+// the build loudly rather than silently picking one.
+const featuredArticles = articles.filter((a) => a.data.featured);
+if (featuredArticles.length > 1) {
+  throw new Error(
+    `Multiple articles flagged featured: ${featuredArticles.map((a) => a.id).join(", ")}. ` +
+      "Only one article may be featured at a time — set featured: false on the others.",
+  );
+}
+
+// Hero = the pinned featured article if any, else most recent.
+const featured = featuredArticles[0];
+const hero = featured ?? articles[0];
+
+// Grid = everything else (excludes whatever became the hero), capped at 4.
+const grid = articles.filter((a) => a.id !== hero?.id).slice(0, 4);
 
 // Cheap hero excerpt: first non-empty paragraph of the raw markdown body,
 // stripped of inline markdown. Good enough for a teaser; nothing rendered.
