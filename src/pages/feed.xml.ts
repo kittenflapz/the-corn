@@ -28,7 +28,7 @@ export async function GET(context: APIContext) {
   return rss({
     title: 'The Corn',
     description:
-      "Port Perry's most vigilant satirical newspaper. Local news, community alerts, and other fictions.",
+      "North Durham's most vigilant satirical newspaper. Local news, community alerts, and other fictions.",
     site: context.site!.toString(),
     items,
     customData: `<language>en-ca</language>`,
