@@ -1,0 +1,254 @@
+---
+// About page — the parody-defense page. Required by IMPLEMENTATION_PLAN T18.
+//
+// This page is the primary place we declare, in plain English, that The Corn
+// is satire, that nothing here is meant to identify or harm real people, and
+// that we welcome corrections / takedown requests at a real address.
+//
+// Catt must review the copy before merge — this is our front-line legal posture
+// for parody and fair comment.
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Masthead from "../components/Masthead.astro";
+
+const STYLE_GUIDE_URL =
+  "https://github.com/kittenflapz/the-corn/blob/main/STYLE_GUIDE.md";
+const CONTACT_EMAIL = "corrections@thecorn.ca";
+---
+
+<BaseLayout
+  title="About The Corn — a satirical newspaper from Durham Region"
+  description="The Corn is a work of satire about small-town Ontario life. About this publication, our framing, and how to reach us."
+>
+  <Masthead />
+
+  <main class="about">
+    <article class="about-body">
+      <header class="about-header">
+        <p class="kicker">About this publication</p>
+        <h1>About The Corn</h1>
+        <p class="deck">
+          <strong>The Corn</strong> is a satirical hyperlocal newspaper.
+          Everything you read here is fictional.
+        </p>
+      </header>
+
+      <section>
+        <p>
+          We make up news stories in the deadpan voice of a small-town paper,
+          drawn loosely from the kind of low-stakes panic that swirls through
+          community Facebook groups in Durham Region — unattended vans,
+          cancellation rumours, downtown developments that haven't been built
+          yet. The bit is that small-town vigilance is funny when you zoom out,
+          and that the breathless certainty with which people in these groups
+          discuss minor non-events deserves a deadpan AP-newswire treatment.
+        </p>
+        <p>
+          We love these towns. That's the whole point. The joke is on the
+          phenomenon of collective panic, never on the individual people who
+          fall into it. (We've fallen into it too. Repeatedly.)
+        </p>
+      </section>
+
+      <section>
+        <h2>What we are</h2>
+        <ul>
+          <li>
+            A parody publication, in the tradition of <em>The Onion</em>,
+            <em>Reductress</em>, and <em>The Beaverton</em>.
+          </li>
+          <li>
+            Fully fictional. All persons, businesses, and events in our
+            articles are invented or composited from multiple sources beyond
+            recognition.
+          </li>
+          <li>
+            Affectionate. Snide is not the tone we're going for. If something
+            we publish feels punching-down rather than punching-up-at-the-vibe,
+            that's a bug, not a feature.
+          </li>
+          <li>
+            Anonymized by default. No real names. No real businesses (chains
+            big enough to not care, occasionally). No real addresses. No
+            identifiable individuals.
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>What we are not</h2>
+        <ul>
+          <li>
+            Real news. (Please do not screenshot us into a community group as
+            evidence of anything.)
+          </li>
+          <li>
+            A platform for grievances about specific people, businesses, or
+            local politicians.
+          </li>
+          <li>
+            A way to relitigate any actual ongoing controversy. If a real
+            local issue is in the air, we'll write around it, not into it.
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>How articles are made</h2>
+        <p>
+          Someone sees a particularly funny panicked Facebook post. We strip
+          out anything identifying — the name, the street, the business, the
+          specific details — and rewrite the energy as a deadpan news article,
+          often composited with two or three other posts on the same theme.
+          The published article is intentionally untraceable to any single
+          source. The original post is never reproduced or quoted verbatim.
+        </p>
+        <p>
+          Our editorial style guide, including the anonymization rules and the
+          topics we won't touch, lives publicly on our
+          <a href={STYLE_GUIDE_URL} rel="noopener noreferrer">GitHub repository</a>
+          under <code>STYLE_GUIDE.md</code>.
+        </p>
+      </section>
+
+      <section>
+        <h2>Corrections, complaints, takedowns</h2>
+        <p>
+          If you see yourself in an article — even by coincidence — and you'd
+          rather not be there, write to us at
+          <strong><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></strong>
+          and we'll take it down, rewrite it, or both. We mean this. The whole
+          project rests on the assumption that nobody specific feels targeted,
+          and if anyone does, the joke isn't working.
+        </p>
+        <p>
+          Same address for factual corrections to the satirical content (yes,
+          this is funny, we know), suggestions, hate mail, or letters to the
+          editor.
+        </p>
+      </section>
+
+      <section>
+        <h2>The masthead</h2>
+        <p>
+          The Corn is published in the deeply unincorporated hours of a small
+          office somewhere in Durham Region. It has a staff of one (well, two,
+          depending on how you count) and no editorial budget. Bylines you'll
+          see attributed to "Staff Reporter" are pseudonymous.
+        </p>
+      </section>
+
+      <p class="closing-disclaimer">
+        <em>
+          The Corn is a satirical publication. All persons, businesses, and
+          events depicted are fictional or fictionalized. Any resemblance to
+          actual residents or local establishments is coincidental and
+          affectionate.
+        </em>
+      </p>
+    </article>
+  </main>
+</BaseLayout>
+
+<style>
+  .about {
+    padding: 1.5em 0 2em;
+  }
+
+  .about-body {
+    max-width: 38em;
+    margin: 0 auto;
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    color: var(--color-ink);
+  }
+
+  .about-header {
+    text-align: center;
+    margin-bottom: 2.5em;
+    padding-bottom: 1.5em;
+    border-bottom: 1px solid var(--color-rule);
+  }
+
+  .kicker {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.75rem;
+    color: var(--color-muted);
+    margin: 0 0 0.6em;
+  }
+
+  .about-header h1 {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(2rem, 6vw, 3rem);
+    line-height: 1.1;
+    margin: 0 0 0.4em;
+  }
+
+  .deck {
+    font-style: italic;
+    color: var(--color-muted);
+    font-size: 1.0625rem;
+    margin: 0;
+  }
+
+  .about-body section {
+    margin-bottom: 2em;
+  }
+
+  .about-body h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.4rem;
+    line-height: 1.2;
+    margin: 0 0 0.5em;
+  }
+
+  .about-body p {
+    margin: 0 0 0.9em;
+    hyphens: auto;
+  }
+
+  .about-body a {
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+
+  .about-body a:hover {
+    text-decoration-thickness: 2px;
+  }
+
+  .signoff {
+    margin-top: 2.5em;
+    text-align: center;
+    color: var(--color-muted);
+  }
+
+  .about-body ul {
+    margin: 0 0 0.9em;
+    padding-left: 1.4em;
+  }
+
+  .about-body li {
+    margin: 0 0 0.5em;
+  }
+
+  .about-body code {
+    font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+    font-size: 0.95em;
+  }
+
+  .closing-disclaimer {
+    margin-top: 2.5em;
+    padding-top: 1.5em;
+    border-top: 1px solid var(--color-rule);
+    color: var(--color-muted);
+    font-size: 0.95rem;
+    text-align: center;
+  }
+</style>
