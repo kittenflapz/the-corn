@@ -4,7 +4,7 @@ deck: "A community member has bypassed several intermediate steps between 'frust
 dateline: "BLACKSTOCK, ON"
 pubDate: 2026-06-07
 byline: "Staff Reporter"
-category: "community"
+category: "local news"
 draft: false
 ---
 
