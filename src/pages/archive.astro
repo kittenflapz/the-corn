@@ -1,0 +1,199 @@
+---
+// Archive — reverse-chronological list of every non-draft article, grouped by month.
+// Each item shows: dateline · headline (link) · deck · pubDate.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Masthead from "../components/Masthead.astro";
+import { getCollection } from "astro:content";
+
+const articles = (await getCollection("articles", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
+// Group by "Month YYYY" (e.g. "May 2026"), preserving reverse-chrono order.
+type Entry = (typeof articles)[number];
+const monthFmt = new Intl.DateTimeFormat("en-CA", {
+  year: "numeric",
+  month: "long",
+});
+const dayFmt = new Intl.DateTimeFormat("en-CA", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+
+const groups: { label: string; items: Entry[] }[] = [];
+for (const article of articles) {
+  const label = monthFmt.format(article.data.pubDate);
+  const last = groups[groups.length - 1];
+  if (last && last.label === label) {
+    last.items.push(article);
+  } else {
+    groups.push({ label, items: [article] });
+  }
+}
+---
+
+<BaseLayout
+  title="Archive — The Corn"
+  description="Every dispatch from The Corn, in reverse chronological order. Grouped by month."
+>
+  <Masthead />
+
+  <main class="archive">
+    <header class="archive-header">
+      <p class="kicker">The Archive</p>
+      <h1 class="title">Back Issues</h1>
+      <p class="lede">
+        Every dispatch we've filed, newest first. Older editions sink to the
+        bottom like sediment in a cup of diner coffee left too long on the
+        warmer.
+      </p>
+    </header>
+
+    {articles.length === 0 ? (
+      <p class="empty">The presses haven't rolled yet. Check back soon.</p>
+    ) : (
+      groups.map((group) => (
+        <section class="month" aria-labelledby={`m-${group.label.replace(/\s+/g, "-")}`}>
+          <h2 id={`m-${group.label.replace(/\s+/g, "-")}`} class="month-label">
+            {group.label}
+          </h2>
+          <ol class="entries">
+            {group.items.map((article) => (
+              <li class="entry">
+                <p class="dateline">{article.data.dateline}</p>
+                <h3 class="headline">
+                  <a href={`/articles/${article.id}/`}>{article.data.title}</a>
+                </h3>
+                {article.data.deck && <p class="deck">{article.data.deck}</p>}
+                <p class="meta">
+                  <time datetime={article.data.pubDate.toISOString()}>
+                    {dayFmt.format(article.data.pubDate)}
+                  </time>
+                </p>
+              </li>
+            ))}
+          </ol>
+        </section>
+      ))
+    )}
+  </main>
+</BaseLayout>
+
+<style>
+  .archive {
+    padding: 1em 0 2em;
+    max-width: 62ch;
+    margin: 0 auto;
+  }
+
+  .archive-header {
+    text-align: center;
+    padding: 0.5em 0 1.5em;
+    border-bottom: 1px solid var(--color-rule);
+    margin-bottom: 2em;
+  }
+
+  .kicker {
+    font-family: var(--font-body);
+    font-size: var(--fs-micro);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-muted);
+    margin: 0 0 0.4em;
+  }
+
+  .title {
+    font-family: var(--font-display);
+    font-size: var(--fs-headline-hero);
+    line-height: 1.1;
+    margin: 0 0 0.4em;
+  }
+
+  .lede {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-deck);
+    color: var(--color-ink);
+    margin: 0 auto;
+    max-width: 50ch;
+    line-height: 1.4;
+  }
+
+  .empty {
+    text-align: center;
+    font-style: italic;
+    color: var(--color-muted);
+    padding: 2em 0;
+  }
+
+  .month {
+    margin-bottom: 2.5em;
+  }
+
+  .month-label {
+    font-family: var(--font-display);
+    font-size: var(--fs-headline);
+    font-weight: 700;
+    margin: 0 0 1em;
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid var(--color-rule);
+    text-align: left;
+  }
+
+  .entries {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .entry {
+    padding: 0.9em 0 1.1em;
+    border-bottom: 1px dotted var(--color-rule);
+  }
+  .entry:last-child {
+    border-bottom: none;
+  }
+
+  .dateline {
+    font-family: var(--font-body);
+    font-size: var(--fs-micro);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    color: var(--color-ink);
+    margin: 0 0 0.25em;
+  }
+
+  .headline {
+    font-family: var(--font-display);
+    font-size: var(--fs-headline);
+    line-height: 1.2;
+    margin: 0 0 0.25em;
+  }
+
+  .headline a {
+    text-decoration: none;
+    color: var(--color-ink);
+  }
+  .headline a:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+  }
+
+  .deck {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: var(--fs-deck);
+    color: var(--color-ink);
+    margin: 0 0 0.4em;
+    line-height: 1.35;
+  }
+
+  .meta {
+    font-family: var(--font-body);
+    font-size: var(--fs-small);
+    color: var(--color-muted);
+    margin: 0;
+  }
+</style>

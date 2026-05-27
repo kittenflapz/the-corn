@@ -30,6 +30,7 @@ const dateStr = pubDate.toLocaleDateString("en-CA", {
   <header class="article-header">
     <p class="kicker">{category}</p>
     <p class="dateline">{dateline}</p>
+    <p class="satire-kicker" aria-label="Satire notice">The Corn — Satire</p>
     <h1 class="headline">{title}</h1>
     {deck && <p class="deck">{deck}</p>}
     <p class="byline">
@@ -74,6 +75,19 @@ const dateStr = pubDate.toLocaleDateString("en-CA", {
     font-weight: 700;
     color: var(--color-ink);
     margin: 0 0 0.4em;
+  }
+
+  /* Parody-defense kicker. Sits between dateline and headline so that any
+   * screenshot capturing the headline also captures the satire notice — the
+   * page chrome (masthead, footer disclaimer) can be stripped, this can't. */
+  .satire-kicker {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: var(--fs-micro);
+    color: var(--color-muted);
+    margin: 0 0 0.5em;
+    letter-spacing: 0.02em;
   }
 
   .headline {

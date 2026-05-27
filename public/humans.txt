@@ -1,0 +1,14 @@
+/* TEAM */
+Publisher: The Corn
+Location: Port Perry, Ontario (allegedly)
+Contact: tips@thecorn.ca (we will not act on them)
+
+/* SITE */
+Standards: HTML5, CSS3, a healthy distrust of unfamiliar vehicles
+Built with: Astro, Playfair Display, Old Standard TT, second-hand rumors
+Hosted on: Cloudflare Pages
+Disclaimer: Fictional. Satirical. Any resemblance to real Facebook posts is the joke.
+
+/* THANKS */
+To everyone who has ever posted a blurry photo of a van at 2:47 AM
+and asked the group if anyone else saw it. You are why we exist.
