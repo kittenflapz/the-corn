@@ -1,0 +1,44 @@
+---
+// Footer — thin top border, 11px italic disclaimer + contact + © line.
+// Per STYLE_GUIDE.md / PRD.md: this disclaimer appears on every page.
+---
+
+<footer class="site-footer">
+  <p class="disclaimer">
+    The Corn is a satirical publication. All persons, businesses, and events
+    depicted are fictional or fictionalized. Any resemblance to actual residents
+    or local establishments is coincidental and affectionate.
+  </p>
+  <p class="meta">
+    Corrections, complaints, or takedown requests:
+    <a href="mailto:corrections@thecorn.ca">corrections@thecorn.ca</a>
+    <span aria-hidden="true"> · </span>
+    <span>&copy; 2026 The Corn</span>
+  </p>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--color-rule);
+    margin-top: 4em;
+    padding: 1.5em 0 3em;
+    color: var(--color-muted);
+    font-family: var(--font-body);
+  }
+
+  .disclaimer {
+    font-size: 11px;
+    font-style: italic;
+    line-height: 1.5;
+    margin: 0 0 0.6em;
+  }
+
+  .meta {
+    font-size: 11px;
+    margin: 0;
+  }
+
+  .meta a {
+    color: var(--color-muted);
+  }
+</style>
