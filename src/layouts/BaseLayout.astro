@@ -1,0 +1,80 @@
+---
+// BaseLayout — html shell, fonts (via global.css), OG/Twitter meta, footer.
+// Every page renders through this. Per-page overrides via props.
+//
+// OG meta lives here (moved from T12 per PM_REVIEW.md) so every page has a
+// share card available at launch, not after.
+
+import "../styles/global.css";
+import Footer from "../components/Footer.astro";
+
+export interface Props {
+  /** <title>. Page-specific. */
+  title: string;
+  /** <meta name="description"> + og:description + twitter:description. */
+  description?: string;
+  /** OG card type. "website" for index/about/archive, "article" for posts. */
+  ogType?: "website" | "article";
+  /** Absolute or root-relative path to share image (1200x630). */
+  ogImage?: string;
+  /** Canonical URL override (absolute). Defaults to current page on Astro.site. */
+  canonical?: string;
+  /** Override <html lang>. */
+  lang?: string;
+}
+
+const {
+  title,
+  description = "Satirical small-town news from Port Perry's most vigilant Facebook groups. Fictional, affectionate, occasionally accurate.",
+  ogType = "website",
+  ogImage = "/og-image.png",
+  canonical,
+  lang = "en",
+} = Astro.props;
+
+// Resolve absolute URLs for og/twitter (fall back gracefully if Astro.site
+// isn't configured — meta still emits, just relative).
+const siteUrl = Astro.site ?? new URL("https://thecorn.ca");
+const pageUrl = canonical ?? new URL(Astro.url.pathname, siteUrl).toString();
+const imageUrl = new URL(ogImage, siteUrl).toString();
+const siteName = "The Corn";
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={pageUrl} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:locale" content="en_CA" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+
+    <slot name="head" />
+  </head>
+  <body>
+    <div class="page">
+      <slot />
+      <Footer />
+    </div>
+  </body>
+</html>
