@@ -1,0 +1,104 @@
+---
+// Custom 404 — in-character. Treats the missing page as an unconfirmed rumor.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Masthead from "../components/Masthead.astro";
+---
+
+<BaseLayout
+  title="404 — Unconfirmed | The Corn"
+  description="This page appears to be a rumor and we have been unable to confirm."
+  ogType="website"
+>
+  <Masthead />
+
+  <main class="notfound">
+    <p class="kicker">DEVELOPING · UNCONFIRMED</p>
+    <h1 class="headline">This page appears to be a rumor.</h1>
+    <p class="deck">
+      Our newsroom has reviewed the available evidence and we have been
+      unable to confirm that it ever existed. We will update this story
+      as more information becomes available.
+    </p>
+
+    <hr class="rule" />
+
+    <p class="body">
+      The address you arrived at &mdash; <code>{Astro.url.pathname}</code> &mdash;
+      could not be located in our records. A neighbour reportedly saw it
+      around here earlier, but a second source declined to comment. We are
+      not saying it is gone. We are saying we cannot, at this time, say
+      that it is here.
+    </p>
+
+    <p class="body">
+      In the interest of restoring order to the timeline, we recommend
+      returning to the <a href="/">front page</a>, where confirmed stories
+      are filed daily.
+    </p>
+
+    <p class="filed">Filed under: Rumor &middot; Unverified &middot; Possibly Nothing</p>
+  </main>
+</BaseLayout>
+
+<style>
+  .notfound {
+    max-width: 65ch;
+    margin: 3rem auto 5rem;
+    padding: 0 1.25rem;
+    font-family: "Old Standard TT", Georgia, serif;
+  }
+  .kicker {
+    font-family: "Playfair Display", Georgia, serif;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-accent, #8a1a1a);
+    margin: 0 0 0.5rem;
+  }
+  .headline {
+    font-family: "Playfair Display", Georgia, serif;
+    font-weight: 900;
+    font-size: clamp(2rem, 5vw, 3rem);
+    line-height: 1.05;
+    margin: 0 0 0.75rem;
+  }
+  .deck {
+    font-style: italic;
+    font-size: 1.125rem;
+    line-height: 1.5;
+    margin: 0 0 1.5rem;
+    color: #2a2a2a;
+  }
+  .rule {
+    border: 0;
+    border-top: 1px solid #111;
+    margin: 1.5rem 0;
+  }
+  .body {
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    margin: 0 0 1rem;
+    text-align: justify;
+    hyphens: auto;
+  }
+  .body code {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+    font-size: 0.95em;
+    background: #f3efe6;
+    padding: 0.05em 0.35em;
+    border-radius: 2px;
+  }
+  .body a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .filed {
+    margin-top: 2rem;
+    font-size: 0.8125rem;
+    font-style: italic;
+    color: #555;
+    letter-spacing: 0.02em;
+  }
+</style>
