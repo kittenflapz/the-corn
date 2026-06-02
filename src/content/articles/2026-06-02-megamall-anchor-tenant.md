@@ -5,7 +5,7 @@ dateline: "PORT PERRY, ON"
 pubDate: 2026-06-02
 byline: "Staff Reporter"
 category: "civic affairs"
-draft: true
+draft: false
 ---
 
 The township has reportedly selected a national convenience-store chain to serve as the anchor tenant of a new downtown mega mall, according to a source who heard the news from a friend, who heard it from a different friend, who has not been located for comment, *The Corn* has learned.
