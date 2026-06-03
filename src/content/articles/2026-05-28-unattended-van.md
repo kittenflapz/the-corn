@@ -2,7 +2,7 @@
 title: 'Unattended Vehicle Behind Grocery Store Enters Second Day, Town Braces For Worst'
 deck: 'Police confirm it is, by every available metric, just a van'
 dateline: 'PORT PERRY, ON'
-pubDate: 2026-05-28
+pubDate: 2026-05-27
 byline: 'Staff Reporter'
 category: 'community alert'
 draft: false

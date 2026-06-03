@@ -2,7 +2,7 @@
 title: "Local Woman Emails Township, Actually Gets Response; Residents Unsure How To Process"
 deck: "In a development witnesses are calling 'deeply confusing' and 'honestly kind of beautiful,' the system worked, briefly, on a Tuesday"
 dateline: "PORT PERRY, ON"
-pubDate: 2026-06-08
+pubDate: 2026-06-02
 byline: "Staff Reporter"
 category: "civic affairs"
 draft: false

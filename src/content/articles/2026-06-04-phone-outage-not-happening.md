@@ -2,7 +2,7 @@
 title: "Phone Service In Region Officially Not Out, Bell Confirms, As Hundreds Of Residents Confirm Otherwise"
 deck: "The carrier's outage map continues to display 'no outages in your area' to residents who are, by their own observation, in an outage"
 dateline: "UXBRIDGE, ON"
-pubDate: 2026-06-04
+pubDate: 2026-05-27
 byline: "Staff Reporter"
 category: "community alert"
 draft: false

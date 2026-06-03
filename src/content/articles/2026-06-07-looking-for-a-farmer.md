@@ -2,7 +2,7 @@
 title: "Resident Seeking Farmer For Garden Help Specifies, Reassuringly, That It Is 'Not Acre Or Acres'"
 deck: "A community member has bypassed several intermediate steps between 'frustration at the grocery store' and 'vertically integrated subsistence operation'"
 dateline: "BLACKSTOCK, ON"
-pubDate: 2026-06-07
+pubDate: 2026-05-27
 byline: "Staff Reporter"
 category: "local news"
 draft: false

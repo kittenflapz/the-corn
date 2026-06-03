@@ -2,7 +2,7 @@
 title: "Horse-Related Sanitation Incident At Big-Box Retailer Climbs To Top Of Town's Active Concerns, Drawing Comment From Mayor"
 deck: "'Not traffic. Not crime. Not politics,' the mayor reportedly wrote, in what residents are calling a tone problem and what historians are calling a love letter"
 dateline: "UXBRIDGE, ON"
-pubDate: 2026-06-05
+pubDate: 2026-05-27
 byline: "Staff Reporter"
 category: "civic affairs"
 draft: false
