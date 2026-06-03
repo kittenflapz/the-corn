@@ -2,7 +2,7 @@
 title: "Downtown Construction Greeted With Pre-Emptive Negativity, Per Speculative Negativity Index"
 deck: "The Corn's Speculative Negativity Index has reached 'severe' for the fourth consecutive quarter, driven entirely by buildings that have not yet been built"
 dateline: "UXBRIDGE, ON"
-pubDate: 2026-05-31
+pubDate: 2026-05-27
 byline: "Staff Reporter"
 category: "civic affairs"
 draft: false

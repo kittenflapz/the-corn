@@ -2,7 +2,7 @@
 title: "Resident Seeking 'Cost-Efficient Vet Who Doesn't Take Advantage' Receives 247 Recommendations, Two Threats, And One Marriage Proposal"
 deck: "The contradictory reviews of the same three local clinics, posted within minutes of each other, are now being studied for what they reveal about the nature of pricing itself"
 dateline: "PORT PERRY, ON"
-pubDate: 2026-06-02
+pubDate: 2026-05-27
 byline: "Staff Reporter"
 category: "community alert"
 draft: false

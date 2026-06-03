@@ -2,7 +2,7 @@
 title: "Residents Pay Off 'Culvert Debauchery' Via Final Tax Notice, Continue Investigation Into Whether They Are Trying To Be Like The City"
 deck: "A 31-comment thread on a starscape-background image of the words 'horse shit' is now the township's primary forum for fiscal policy"
 dateline: "UXBRIDGE, ON"
-pubDate: 2026-06-06
+pubDate: 2026-05-27
 byline: "Staff Reporter"
 category: "civic affairs"
 draft: false

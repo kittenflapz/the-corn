@@ -2,7 +2,7 @@
 title: "Beloved Rural Fair Confirmed Cancelled By People Who Were Not Told It Was Cancelled"
 deck: "Organizers, vendors, and the fair itself, currently being assembled, were not available for comment on the cancellation"
 dateline: "BLACKSTOCK, ON"
-pubDate: 2026-05-29
+pubDate: 2026-05-27
 byline: "Staff Reporter"
 category: "community alert"
 draft: false

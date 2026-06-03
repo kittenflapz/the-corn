@@ -2,7 +2,7 @@
 title: "Routine Excavation At Township Park Sparks Wave Of Confidently Wrong Theories From Residents Who Did Not Think To Ask"
 deck: "Worm farm, veggie patch, government cover-up, and 'condo building like Port Perry' among the explanations offered before anyone called the agricultural society"
 dateline: "UXBRIDGE, ON"
-pubDate: 2026-06-01
+pubDate: 2026-05-27
 byline: "Staff Reporter"
 category: "civic affairs"
 draft: false

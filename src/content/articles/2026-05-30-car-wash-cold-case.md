@@ -2,7 +2,7 @@
 title: "Self-Serve Car Wash Owners Remain Unreachable, Veteran Note-Leavers Enter Third Year Of Patient Vigilance"
 deck: "A coalition of residents has, over multiple seasons, left messages, written letters, and once tried 'just sort of yelling into the bay'"
 dateline: "PORT PERRY, ON"
-pubDate: 2026-05-30
+pubDate: 2026-05-27
 byline: "Staff Reporter"
 category: "civic affairs"
 draft: false
