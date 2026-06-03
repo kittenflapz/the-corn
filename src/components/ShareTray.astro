@@ -1,0 +1,186 @@
+---
+// ShareTray — newsprint-styled share row for article pages.
+//
+// Design choices:
+//   - No big colorful social icons. Newsprint cream + black serif aesthetic
+//     would have a meltdown if we dropped a Facebook-blue rounded square in.
+//     We render small-caps text links separated by the bullet (·) that's
+//     already used elsewhere on the page (masthead furniture, metadata).
+//   - Three buttons: Facebook, X (formerly Twitter, who could forget),
+//     and Copy link. Instagram is intentionally OMITTED — Instagram has
+//     no public web share-intent URL; you can't deep-link the share sheet
+//     from a browser. A button that opened instagram.com would be a lie.
+//     If/when Catt wants IG, the move is a "share to story" sticker flow
+//     via the mobile app's URL scheme — that's a separate task.
+//   - The URL is built from Astro.site + Astro.url.pathname so it's the
+//     final canonical thecorn.ca URL even when previewed under a deploy
+//     URL. Falls back gracefully to relative if Astro.site is unset.
+//   - Copy-link uses navigator.clipboard with a textarea fallback for
+//     older browsers / non-secure contexts. The button text flips to
+//     "Copied" for 1.6s on success.
+//
+// Renders inline (no client-side framework), one tiny <script is:inline>
+// for the copy-link behavior. Total added page weight: ~0.6kb.
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+
+// Build absolute URL for share intents. Astro.site is set in astro.config.mjs
+// to https://thecorn.ca so this resolves to the canonical URL at build time.
+const pageUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).toString();
+
+// Pre-encoded for use in share intent URLs.
+const enc = encodeURIComponent;
+const u = enc(pageUrl);
+const t = enc(title);
+
+const fbHref = `https://www.facebook.com/sharer/sharer.php?u=${u}`;
+// X/Twitter share intent — works for both logged-in X and the legacy mobile fallback.
+const xHref = `https://twitter.com/intent/tweet?url=${u}&text=${t}`;
+---
+
+<aside class="share-tray" aria-label="Share this article">
+  <span class="share-label">Share this dispatch</span>
+  <span class="share-sep" aria-hidden="true">·</span>
+  <a
+    class="share-link"
+    href={fbHref}
+    target="_blank"
+    rel="noopener noreferrer"
+    data-share="facebook"
+  >Facebook</a>
+  <span class="share-sep" aria-hidden="true">·</span>
+  <a
+    class="share-link"
+    href={xHref}
+    target="_blank"
+    rel="noopener noreferrer"
+    data-share="twitter"
+  >X</a>
+  <span class="share-sep" aria-hidden="true">·</span>
+  <button
+    type="button"
+    class="share-link share-copy"
+    data-share="copy"
+    data-url={pageUrl}
+    aria-live="polite"
+  >Copy link</button>
+</aside>
+
+<script is:inline>
+  // Copy-link behavior. Wired at module scope so it runs once per page load.
+  (function () {
+    const btn = document.querySelector(".share-copy");
+    if (!btn) return;
+
+    const originalText = btn.textContent;
+    let resetTimer = null;
+
+    async function copy(text) {
+      // Modern path (HTTPS + secure context).
+      if (navigator.clipboard && window.isSecureContext) {
+        try {
+          await navigator.clipboard.writeText(text);
+          return true;
+        } catch (_err) {
+          // fall through to legacy
+        }
+      }
+      // Legacy fallback: hidden textarea + execCommand.
+      try {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed";
+        ta.style.top = "-1000px";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        const ok = document.execCommand("copy");
+        document.body.removeChild(ta);
+        return ok;
+      } catch (_err) {
+        return false;
+      }
+    }
+
+    btn.addEventListener("click", async () => {
+      const url = btn.getAttribute("data-url") || window.location.href;
+      const ok = await copy(url);
+      btn.textContent = ok ? "Copied" : "Press Ctrl+C";
+      btn.classList.add("share-copied");
+      if (resetTimer) clearTimeout(resetTimer);
+      resetTimer = setTimeout(() => {
+        btn.textContent = originalText;
+        btn.classList.remove("share-copied");
+      }, 1600);
+    });
+  })();
+</script>
+
+<style>
+  .share-tray {
+    margin: 2.4em auto 0;
+    padding: 0.9em 0 0;
+    border-top: 1px solid var(--color-rule);
+    max-width: 65ch;
+    font-family: var(--font-body);
+    font-size: var(--fs-small);
+    text-align: center;
+    color: var(--color-muted);
+    /* Don't let the share row get caught in the body's CSS columns. */
+    column-span: all;
+  }
+
+  .share-label {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    color: var(--color-ink);
+    margin-right: 0.2em;
+  }
+
+  .share-sep {
+    margin: 0 0.55em;
+    color: var(--color-muted);
+  }
+
+  .share-link {
+    /* Reset button defaults so <button> and <a> render identically. */
+    appearance: none;
+    background: none;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+    cursor: pointer;
+  }
+
+  .share-link:hover,
+  .share-link:focus-visible {
+    text-decoration-thickness: 2px;
+  }
+
+  .share-link.share-copied {
+    color: var(--color-muted);
+    text-decoration: none;
+    font-style: italic;
+  }
+
+  /* Tighten the row on narrow screens — let the separators wrap with the links. */
+  @media (max-width: 420px) {
+    .share-tray {
+      line-height: 1.9;
+    }
+    .share-sep {
+      margin: 0 0.4em;
+    }
+  }
+</style>
