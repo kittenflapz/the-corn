@@ -44,11 +44,37 @@ The flow:
 ## Draft → publish
 
 - Frontmatter `draft: true` keeps the article out of the homepage, archive, and
-  RSS feed. Use this while editing.
+  RSS feed at build time.
 - Frontmatter `draft: false` (or omitting the field, since the schema defaults
-  to false) makes the article live on the next deploy.
+  to `false`) publishes it.
 - It's totally fine to merge a draft and iterate in subsequent PRs before
-  flipping the switch. The git history is the audit trail either way.
+  flipping the flag.
+
+## Featuring an article
+
+The homepage hero is normally the most recent non-draft article. To **pin** a
+specific article as the hero indefinitely (overriding the recency rule), set
+`featured: true` in its frontmatter:
+
+```yaml
+---
+title: "..."
+pubDate: 2026-05-31
+draft: false
+featured: true
+---
+```
+
+**Only one article may be featured at a time.** The build will fail loudly if
+two articles are flagged `featured: true` — this is intentional, so you can't
+silently double-pin by forgetting to demote the previous favorite.
+
+To swap which article is featured: open the currently-featured article's
+markdown, flip `featured: true` → `featured: false` (or delete the line), and
+flip the new pick to `featured: true` in the same PR.
+
+If no article is flagged featured, the homepage falls back to the
+most-recent-pubDate behavior automatically.
 
 ---
 

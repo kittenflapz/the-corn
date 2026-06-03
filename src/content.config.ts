@@ -14,6 +14,7 @@ const articles = defineCollection({
       .enum(['local news', 'community alert', 'food & dining', 'civic affairs'])
       .default('local news'),
     draft: z.boolean().default(false),
+    featured: z.boolean().default(false),
   }),
 });
 

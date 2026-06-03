@@ -6,6 +6,7 @@ import type { CollectionEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Masthead from "../../components/Masthead.astro";
 import ArticleBody from "../../components/ArticleBody.astro";
+import ShareTray from "../../components/ShareTray.astro";
 
 export async function getStaticPaths() {
   const articles = await getCollection("articles", ({ data }) => !data.draft);
@@ -26,11 +27,12 @@ const { title, deck } = article.data;
 
 <BaseLayout
   title={`${title} — The Corn`}
-  description={deck ?? `${title} — from The Corn, Port Perry's most vigilant satirical newspaper.`}
+  description={deck ?? `${title} — from The Corn, North Durham's most vigilant satirical newspaper.`}
   ogType="article"
 >
   <Masthead />
   <ArticleBody article={article}>
     <Content />
+    <ShareTray slot="share" title={title} />
   </ArticleBody>
 </BaseLayout>
