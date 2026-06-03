@@ -5,7 +5,7 @@ dateline: "UXBRIDGE, ON"
 pubDate: 2026-06-03
 byline: "Staff Reporter"
 category: "civic affairs"
-draft: true
+draft: false
 ---
 
 A two-storey commercial block on a downtown stretch of Uxbridge is reportedly being demolished to make way for a three-storey replacement, according to a Facebook post that has, in the space of eighteen minutes, transformed an entirely unremarkable building into a cherished community landmark.
