@@ -22,15 +22,17 @@ interface CardJSON {
   byline: string;
   pubDateISO: string;
   dateStr: string;
+  heroImageSrc?: string;
 }
 
 function toCard(article: Awaited<ReturnType<typeof getCollection>>[number]): CardJSON {
-  const { title, deck, category, byline, pubDate } = article.data as {
+  const { title, deck, category, byline, pubDate, heroImage } = article.data as {
     title: string;
     deck?: string;
     category: string;
     byline: string;
     pubDate: Date;
+    heroImage?: { src: string };
   };
   return {
     id: article.id,
@@ -45,6 +47,7 @@ function toCard(article: Awaited<ReturnType<typeof getCollection>>[number]): Car
       month: "long",
       day: "numeric",
     }),
+    heroImageSrc: heroImage?.src,
   };
 }
 

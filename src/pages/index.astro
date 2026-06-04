@@ -116,6 +116,7 @@ const heroExcerpt = hero ? excerptOf(hero.body ?? "") : "";
     byline: string;
     pubDateISO: string;
     dateStr: string;
+    heroImageSrc?: string;
   };
 
   type ApiResponse = { articles: CardJSON[]; nextPage: number | null };
@@ -136,6 +137,7 @@ const heroExcerpt = hero ? excerptOf(hero.body ?? "") : "";
       // because the Astro component scopes are static — but the cream/ink
       // typography is inherited from global.css, so plain class names work.
       article.innerHTML = `
+        ${a.heroImageSrc ? `<a href="${escapeAttr(a.href)}" class="card-image card-image-grid" aria-hidden="true" tabindex="-1"><img src="${escapeAttr(a.heroImageSrc)}" alt="" loading="lazy" /></a>` : ""}
         <p class="kicker">${escapeHTML(a.category)}</p>
         <h3 class="headline"><a href="${escapeAttr(a.href)}">${escapeHTML(a.title)}</a></h3>
         ${a.deck ? `<p class="deck deck-grid">${escapeHTML(a.deck)}</p>` : ""}

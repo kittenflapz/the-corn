@@ -14,7 +14,7 @@ interface Props {
 }
 
 const { article, variant = "grid", excerpt } = Astro.props;
-const { title, deck, dateline, byline, pubDate, category } = article.data;
+const { title, deck, dateline, byline, pubDate, category, heroImage } = article.data;
 const href = `/articles/${article.id}/`;
 
 // Formatted date — newspaper style: "May 28, 2026"
@@ -27,6 +27,11 @@ const dateStr = pubDate.toLocaleDateString("en-CA", {
 
 {variant === "hero" ? (
   <article class="card card-hero">
+    {heroImage && (
+      <a href={href} class="card-image card-image-hero" aria-hidden="true" tabindex="-1">
+        <img src={heroImage.src} alt="" loading="eager" />
+      </a>
+    )}
     <p class="kicker">{category}</p>
     <h2 class="headline-hero"><a href={href}>{title}</a></h2>
     {deck && <p class="deck">{deck}</p>}
@@ -42,6 +47,11 @@ const dateStr = pubDate.toLocaleDateString("en-CA", {
   </article>
 ) : (
   <article class="card card-grid">
+    {heroImage && (
+      <a href={href} class="card-image card-image-grid" aria-hidden="true" tabindex="-1">
+        <img src={heroImage.src} alt="" loading="lazy" />
+      </a>
+    )}
     <p class="kicker">{category}</p>
     <h3 class="headline"><a href={href}>{title}</a></h3>
     {deck && <p class="deck deck-grid">{deck}</p>}
@@ -166,5 +176,33 @@ const dateStr = pubDate.toLocaleDateString("en-CA", {
 
   .meta-grid {
     margin: 0;
+  }
+
+  /* -- card images (homepage previews) --------------------------------- */
+  .card-image {
+    display: block;
+    margin: 0 0 0.9em;
+    overflow: hidden;
+    border: 1px solid var(--color-rule);
+  }
+  .card-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(1) contrast(1.05);
+    transition: filter 160ms ease;
+  }
+  .card-image:hover img {
+    filter: grayscale(1) contrast(1.12);
+  }
+  .card-image-hero {
+    /* hero gets a wider, shorter ratio — feels like a front-page lead photo */
+    aspect-ratio: 16 / 9;
+    margin: 0 auto 1em;
+    max-width: 56rem;
+  }
+  .card-image-grid {
+    aspect-ratio: 3 / 2;
   }
 </style>
