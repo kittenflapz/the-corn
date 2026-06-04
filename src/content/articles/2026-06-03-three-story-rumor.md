@@ -6,6 +6,11 @@ pubDate: 2026-06-03
 byline: "Staff Reporter"
 category: "civic affairs"
 draft: false
+heroImage:
+  src: /img/2026-06-03-three-story-rumor.png
+  alt: A modest two-storey downtown commercial brick building with brown paper in the empty ground-floor windows and apartments above.
+  caption: The two-storey block, now widely beloved, that no resident had previously thought to mention.
+  credit: The Corn
 ---
 
 A two-storey commercial block on a downtown stretch of Uxbridge is reportedly being demolished to make way for a three-storey replacement, according to a Facebook post that has, in the space of eighteen minutes, transformed an entirely unremarkable building into a cherished community landmark.

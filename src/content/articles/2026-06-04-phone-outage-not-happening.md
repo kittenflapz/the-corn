@@ -6,6 +6,11 @@ pubDate: 2026-05-27
 byline: "Staff Reporter"
 category: "community alert"
 draft: false
+heroImage:
+  src: /img/2026-06-04-phone-outage-not-happening.png
+  alt: A weathered grey telecom utility pedestal box on the edge of a residential street, beside a wooden hydro pole.
+  caption: Carrier infrastructure, continuing to provide service that is not, officially, interrupted.
+  credit: The Corn
 ---
 
 A widespread regional phone service outage that the carrier maintains is not occurring continued to not occur on Wednesday, sources confirm, even as several hundred local residents continued to be unable to make or receive phone calls in the area where the outage is not happening.

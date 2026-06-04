@@ -6,6 +6,11 @@ pubDate: 2026-05-27
 byline: "Staff Reporter"
 category: "civic affairs"
 draft: false
+heroImage:
+  src: /img/2026-06-05-horse-sanitation-incident.png
+  alt: A wide empty asphalt parking lot at a big-box retail store, with hoofprints and a small pile of manure in the foreground.
+  caption: The site of the incident, photographed after the manure but before the discourse.
+  credit: The Corn
 ---
 
 A passing equestrian's failure to clean up after her horse in the parking lot of a national big-box retailer has, within twenty-four hours, ascended to the position of most-discussed civic matter in the township, displacing several long-running concerns and prompting public comment from the mayor's office, *The Corn* has confirmed.

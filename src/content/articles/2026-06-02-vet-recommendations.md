@@ -6,6 +6,11 @@ pubDate: 2026-05-27
 byline: "Staff Reporter"
 category: "community alert"
 draft: false
+heroImage:
+  src: /img/2026-06-02-vet-recommendations.png
+  alt: The exterior of a one-storey small-town veterinary clinic with a beige brick facade, modest awning, and two cars in the lot.
+  caption: One of three clinics in town, each described in the same thread as both the best value and a known racket.
+  credit: The Corn
 ---
 
 A community Facebook post requesting recommendations for "a cost-efficient vet who provides good care without taking advantage of customers" has produced, in under 24 hours, 247 individual recommendations spanning every veterinary practice within an 80-kilometre radius, *The Corn*'s research department reports.

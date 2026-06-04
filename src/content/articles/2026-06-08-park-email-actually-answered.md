@@ -6,6 +6,11 @@ pubDate: 2026-06-02
 byline: "Staff Reporter"
 category: "civic affairs"
 draft: false
+heroImage:
+  src: /img/2026-06-08-park-email-actually-answered.png
+  alt: A small off-leash dog park with wire-mesh fencing, a wooden bench, a single mature tree, and an empty water bowl.
+  caption: The park, in which a problem was reported, acknowledged, and acted upon — a sequence many residents are still attempting to verify.
+  credit: The Corn
 ---
 
 A longtime resident this week sent a politely-worded email to the Township regarding ongoing concerns at a local off-leash park and **received an actual reply containing actionable information**, sources confirmed Tuesday.

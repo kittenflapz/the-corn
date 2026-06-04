@@ -6,6 +6,11 @@ pubDate: 2026-05-27
 byline: "Staff Reporter"
 category: "community alert"
 draft: false
+heroImage:
+  src: /img/2026-05-29-fair-cancellation-rumor.png
+  alt: A partially-assembled rural fairground the day before opening, with a small ferris wheel and white vendor tents being staked.
+  caption: The fair, photographed mid-assembly, hours before being widely confirmed as cancelled.
+  credit: The Corn
 ---
 
 A widely-circulated rumour confirmed late Tuesday that a beloved annual rural fair has been cancelled, despite the fair currently being scheduled, advertised, ticketed, and physically under construction in a field outside the village.

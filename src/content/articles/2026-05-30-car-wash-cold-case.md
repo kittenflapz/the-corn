@@ -6,6 +6,11 @@ pubDate: 2026-05-27
 byline: "Staff Reporter"
 category: "civic affairs"
 draft: false
+heroImage:
+  src: /img/2026-05-30-car-wash-cold-case.png
+  alt: An empty self-serve coin car wash bay with hose and wand hanging on a cinderblock wall.
+  caption: The car wash, into which several years of correspondence have been politely deposited.
+  credit: The Corn
 ---
 
 A community-led effort to make contact with the owners of a local self-serve coin car wash has entered its third consecutive year without success, residents report, despite a sustained campaign of notes, voicemails, and posts to community Facebook groups asking if anyone knows who runs the place.

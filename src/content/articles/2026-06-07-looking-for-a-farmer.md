@@ -6,6 +6,11 @@ pubDate: 2026-05-27
 byline: "Staff Reporter"
 category: "local news"
 draft: false
+heroImage:
+  src: /img/2026-06-07-looking-for-a-farmer.png
+  alt: A small overgrown residential backyard garden plot with weeds, last year's stalks, and a rusted rotor tiller against a wooden fence.
+  caption: The garden, currently the early stage of a vertically integrated subsistence operation.
+  credit: The Corn
 ---
 
 A local resident took to a community Facebook group early Saturday morning to request assistance from "a Farmer, well not actually," in cleaning up a residential garden plot with a rotor tiller, citing an inability to buy vegetables at the grocery store as justification for the immediate transition to small-scale self-sufficient agriculture.

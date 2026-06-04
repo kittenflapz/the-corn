@@ -6,6 +6,11 @@ pubDate: 2026-05-27
 byline: "Staff Reporter"
 category: "civic affairs"
 draft: false
+heroImage:
+  src: /img/2026-06-06-culvert-debauchery.png
+  alt: A concrete drainage culvert under a rural township road, weeds around the opening, gravel shoulder above.
+  caption: The culvert, around which a thirty-one-comment thread on fiscal policy is currently being maintained.
+  credit: The Corn
 ---
 
 A final municipal tax notice arrived in the mailboxes of township residents this week, prompting what observers are calling "an unusually rich" round of community discussion about civic finances, urban planning theory, and whether the town is, in some unspecified but important way, attempting to become a city, *The Corn* has confirmed.

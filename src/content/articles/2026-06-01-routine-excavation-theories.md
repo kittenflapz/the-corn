@@ -6,6 +6,11 @@ pubDate: 2026-05-27
 byline: "Staff Reporter"
 category: "civic affairs"
 draft: false
+heroImage:
+  src: /img/2026-06-01-routine-excavation-theories.png
+  alt: A small bulldozer pushing soil into a tidy pile in a flat dirt area of a township park.
+  caption: The excavation, in which a flat dirt area is being prepared for use as a flat dirt area.
+  credit: The Corn
 ---
 
 Routine reconditioning work at a township-owned park has generated, in the past 48 hours, no fewer than fourteen distinct theories about what is happening on the property, none of them researched and most of them mutually exclusive, *The Corn* has learned.

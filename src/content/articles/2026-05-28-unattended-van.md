@@ -6,6 +6,11 @@ pubDate: 2026-05-27
 byline: 'Staff Reporter'
 category: 'community alert'
 draft: false
+heroImage:
+  src: /img/2026-05-28-unattended-van.png
+  alt: A white cargo van parked alone behind a small-town grocery store, beside the loading-bay door and two dumpsters.
+  caption: The van, viewed from a respectful distance, continuing to park.
+  credit: The Corn
 ---
 
 A white cargo van parked behind a local grocery store has now gone unattended for over 36 hours, plunging the community into what residents are describing as "the most pressing security crisis since the gazebo incident."
