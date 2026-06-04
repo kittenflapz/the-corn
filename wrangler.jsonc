@@ -9,5 +9,8 @@
 	},
 	"observability": {
 		"enabled": true
-	}
+	},
+	"kv_namespaces": [
+		{ "binding": "SESSION", "id": "17a40ab673d34535b2425bb7d9142669" }
+	]
 }
