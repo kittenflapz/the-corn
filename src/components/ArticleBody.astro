@@ -17,7 +17,7 @@ interface Props {
 }
 
 const { article } = Astro.props;
-const { title, deck, dateline, byline, pubDate, category } = article.data;
+const { title, deck, dateline, byline, pubDate, category, heroImage } = article.data;
 
 const dateStr = pubDate.toLocaleDateString("en-CA", {
   year: "numeric",
@@ -39,6 +39,19 @@ const dateStr = pubDate.toLocaleDateString("en-CA", {
       <time datetime={pubDate.toISOString()}>{dateStr}</time>
     </p>
   </header>
+
+  {heroImage && (
+    <figure class="hero">
+      <img src={heroImage.src} alt={heroImage.alt} loading="eager" />
+      {(heroImage.caption || heroImage.credit) && (
+        <figcaption>
+          {heroImage.caption}
+          {heroImage.caption && heroImage.credit && <span aria-hidden="true"> · </span>}
+          {heroImage.credit && <span class="credit">{heroImage.credit}</span>}
+        </figcaption>
+      )}
+    </figure>
+  )}
 
   <div class="article-body">
     <slot />
@@ -198,6 +211,41 @@ const dateStr = pubDate.toLocaleDateString("en-CA", {
     font-style: italic;
     font-size: var(--fs-small);
     text-align: center;
+  }
+
+  /* Hero image — full-width newsprint photo above the body. Sits between header
+   * and the 2-column body so it doesn't get sucked into a column. Grayscale
+   * + slight grain to match the newsprint aesthetic. */
+  .hero {
+    margin: 0 auto 1.6em;
+    max-width: 65ch;
+  }
+  .hero img {
+    display: block;
+    width: 100%;
+    height: auto;
+    /* newsprint photo treatment */
+    filter: grayscale(1) contrast(1.05);
+    border: 1px solid var(--color-rule);
+  }
+  .hero figcaption {
+    font-family: var(--font-body);
+    font-size: var(--fs-micro);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-muted);
+    text-align: center;
+    margin-top: 0.5em;
+  }
+  .hero .credit {
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  @media (min-width: 760px) {
+    .hero {
+      max-width: none;
+    }
   }
 
   .back-link a {

@@ -15,6 +15,14 @@ const articles = defineCollection({
       .default('local news'),
     draft: z.boolean().default(false),
     featured: z.boolean().default(false),
+    heroImage: z
+      .object({
+        src: z.string(),       // path under /public, e.g. '/img/foo.png'
+        alt: z.string(),       // required for a11y
+        caption: z.string().optional(),
+        credit: z.string().default('The Corn'),
+      })
+      .optional(),
   }),
 });
 

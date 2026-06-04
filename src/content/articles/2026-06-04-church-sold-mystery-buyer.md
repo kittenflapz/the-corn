@@ -6,6 +6,11 @@ pubDate: 2026-06-04
 byline: "Staff Reporter"
 category: "community alert"
 draft: false
+heroImage:
+  src: /img/2026-06-04-church-sold-mystery-buyer.png
+  alt: A small red brick church with a peaked roof and modest steeple, photographed from across the street on an overcast afternoon. A bare sign-post stub sticks out of the grass at the curb.
+  caption: The church, recently sold to a buyer the community has not yet been informed of and would have no business knowing about.
+  credit: The Corn
 ---
 
 Residents of a Durham Region hamlet are demanding answers regarding the recent sale of a local church, *The Corn* has learned, on the grounds that the private real estate transaction of two parties unknown to them is, in their view, a matter of urgent public concern.
